@@ -7,16 +7,23 @@ public class UI : MonoBehaviour, IHealthObserver, IAgroObserver
     [SerializeField] private TextMeshProUGUI _textMesh;
     private GameObject _player;
 
-    private CharacterHealth _characterHealth=new CharacterHealth();
+    [SerializeField] private CharacterHealth _characterHealth;
 
     private string _playerName;
 
-    private void Awake()
+    private void Start()
     {
-     
+        Debug.Log("UI HEALTH:" + _characterHealth.Health.Value);
+
+    }
+
+    public void Initialize()
+    {
+
         _aggrZone.Entered += OnEntered;
         _characterHealth.Health.Changed += OnHealthChanged;
     }
+
 
     private void OnDestroy()
     {

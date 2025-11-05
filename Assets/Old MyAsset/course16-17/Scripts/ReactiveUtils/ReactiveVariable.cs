@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public class ReactiveVariable<T> where T :IEquatable<T>
+public class ReactiveVariable<T>:IDisposable where T :IEquatable<T>
 {
     public event Action<T, T> ChangedDetailed;
     public event Action<T> Changed;
@@ -32,4 +32,11 @@ public class ReactiveVariable<T> where T :IEquatable<T>
         }
     }
 
+    public void Dispose()
+    {
+
+
+        
+   
+    }
 }

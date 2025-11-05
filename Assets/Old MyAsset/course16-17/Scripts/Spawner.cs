@@ -15,6 +15,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Transform _homePosition;
     [SerializeField] private Transform _target;
     [SerializeField] private Effect _effect;
+    private CharactersFactory _charactersFactory=new CharactersFactory();
 
     public void Initialize()
     {
@@ -22,14 +23,9 @@ public class Spawner : MonoBehaviour
         _spawnOffset = new Vector3(0, 1, 0);
     }
 
-    public void Awake()
-    {
-
-    }
-
     private void Start()
     {
-        CreateEnemy();
+        SpawnEnemy();
         SelectBehavior();
     }
 
@@ -46,6 +42,13 @@ public class Spawner : MonoBehaviour
                 Debug.LogError($"Неизвестный Idle: {type}");
                 return new StandBehavior(enemy.transform, _homePosition, this);
         }
+
+    }
+    public void SpawnEnemy()
+    {
+        _lastEnemy = _charactersFactory.CreateEnemy(_enemyPrefab, _spawnPoint.position, _spawnOffset);
+        enemies?.Add(_lastEnemy);
+
 
     }
 
@@ -69,7 +72,7 @@ public class Spawner : MonoBehaviour
     {
 
         _lastEnemy = Instantiate(_enemyPrefab, _spawnPoint.position + _spawnOffset, Quaternion.identity);
-        enemies?.Add(_lastEnemy);
+        
 
         return _lastEnemy;
     }

@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterHealth
+public class CharacterHealth:MonoBehaviour 
 {
-    private static ReactiveVariable<int> _health = new ReactiveVariable<int>(100);
+    private ReactiveVariable<int> _health = new ReactiveVariable<int>(1000);
 
-    public ReactiveVariable<int> Health { get { return _health; }}
+    public ReactiveVariable<int> Health { get { return _health; }private set { _health = value; } }
+
 
     public void TakeDamage(int dmg)
     {
         _health.Value -= dmg;
     }
+
 
 }
