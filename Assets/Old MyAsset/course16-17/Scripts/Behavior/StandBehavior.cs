@@ -15,12 +15,12 @@ public class StandBehavior : IBehavior
     private readonly Transform _target;
     private readonly Movement _movement=new Movement();
     public string Name => "stand";
-    public StandBehavior(Transform source, Transform target, MonoBehaviour owner)
+    public StandBehavior(Transform source, Transform target)
     {
 
         _source = source;
         _target = target;
-        _owner = owner;
+
     }
     public void Enter()
     {

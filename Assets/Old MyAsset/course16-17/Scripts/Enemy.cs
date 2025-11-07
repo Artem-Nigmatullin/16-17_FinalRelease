@@ -7,10 +7,11 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IAgroObserver
 {
     private GameObject _gameObject;
-    [SerializeField] private Transform _target;
+    [SerializeField] private Transform _targetPlayer;
     [SerializeField] Spawner _spawner;
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private List<Transform> _points;
+    [SerializeField] private Transform _homePosition;
 
     private IBehavior _currentBehavior;
     private IBehavior _idleBehavior;
@@ -29,6 +30,8 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public bool IsChangedIdleStateInInspector => _currentIdleType != _previousIdleType;
     public bool IsChangedReactStateInInspector => _currentReactType != _previousReactType;
+
+    private bool IsEnteredPlayer;
 
     public void Awake()
     {
@@ -62,17 +65,18 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     private void ChangeStateAllEnemies()
     {
+       
         if (Input.GetKey(KeyCode.Y))
         {
             ChangeIdleSubState(EnemyIdleBehaviorType.RandomWalk);
-            return;
+           
         }
 
         if (Input.GetKey(KeyCode.I))
         {
-            
+
             ChangeReactSubState(EnemyReactBehaviorType.Chase);
-            return;
+        
         }
     }
     private void ChangeStateInInspector()
@@ -96,13 +100,13 @@ public class Enemy : MonoBehaviour, IAgroObserver
     {
         _currentBehavior = behavior;
     }
-    public void SetTarget(Transform target) => _target = target;
+    public void SetTarget(Transform target) => _targetPlayer = target;
 
     public void Init(EnemyIdleBehaviorType idleType, EnemyReactBehaviorType reactType)
     {
 
-        _idleBehavior = _spawner.CreateIdleBehavior(this, idleType, _points);
-        _reactBehavior = _spawner.CreateReactBehavior(this, reactType);
+        _idleBehavior = _spawner.SpawnIdleBehavior(idleType, this, _points);
+        _reactBehavior = _spawner.SpawnReactBehavior(reactType, this, _targetPlayer, this.transform);
 
         _currentIdleType = idleType;
         _previousIdleType = _currentIdleType;
@@ -116,9 +120,9 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public void ChangeIdleSubState(EnemyIdleBehaviorType newType)
     {
-
+        _currentBehavior = null;
         _currentBehavior?.Exit();
-        _idleBehavior = _spawner.CreateIdleBehavior(this, newType, _points);
+        _idleBehavior = _spawner.SpawnIdleBehavior(newType, this, _points);
         _currentBehavior = _idleBehavior;
         _currentBehavior.Enter();
         Debug.Log($"{name}: сменил состояние на {newType}");
@@ -126,9 +130,9 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public void ChangeReactSubState(EnemyReactBehaviorType newType)
     {
-
+        _currentBehavior = null;
         _currentBehavior?.Exit();
-        _reactBehavior = _spawner.CreateReactBehavior(this, newType);
+        _reactBehavior = _spawner.SpawnReactBehavior(newType, this, _targetPlayer,this.transform);
         _currentBehavior = _reactBehavior;
         _currentBehavior.Enter();
         Debug.Log($"{name}: сменил состояние на {newType}");
@@ -136,6 +140,7 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public void SetIdleBehavior()
     {
+        
         if (_idleBehavior == null)
             Debug.LogError($"{name}: idleBehavior не установлен!");
         else
@@ -145,11 +150,12 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public void SetReactBehavior()
     {
+       
         if (_reactBehavior == null)
             Debug.LogError($"{name}: ReactBehavior не установлен!");
         else
             _currentBehavior?.Exit();
-            _currentBehavior = _reactBehavior;
+        _currentBehavior = _reactBehavior;
         _currentBehavior?.Enter();
     }
 
@@ -165,7 +171,7 @@ public class Enemy : MonoBehaviour, IAgroObserver
         DevLog.Log($"{gameObject} вижу врага в зоне");
     }
 
-    public void ClearTarget() => _target = null;
+    public void ClearTarget() => _targetPlayer = null;
 
 
 

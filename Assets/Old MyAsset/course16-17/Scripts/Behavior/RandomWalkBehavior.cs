@@ -8,15 +8,14 @@ public class RandomWalkBehavior : IBehavior
     private bool _hasTarget = false;
     private float _distance;
     private Coroutine _routine;
-    private Movement _movement=new Movement();
+    private Movement _movement = new Movement();
     private readonly MonoBehaviour _owner;
     private readonly Transform _source;
     public string Name => "random";
 
-    public RandomWalkBehavior(Transform source, MonoBehaviour owner)
+    public RandomWalkBehavior(Transform source)
     {
         _source = source;
-        _owner = owner;
     }
 
     public void Enter()
@@ -50,13 +49,14 @@ public class RandomWalkBehavior : IBehavior
 
         //_routine = _owner.StartCoroutine(WalkRoutine());
 
+
         _distance = Vector3.Distance(_source.transform.position, _targetPosition);
-        if (_hasTarget == false || _distance < 0.1f)
+        if (_distance < 0.1f)
         {
             _targetPosition = new Vector3(Random.Range(-3f, 3f), _source.transform.position.y, Random.Range(-3f, 3f));
-            _hasTarget = true;
             Debug.Log($"{_source.name} гуляет по точке {_targetPosition}");
         }
+       
         _movement.Move(_source, _targetPosition, SPEED);
 
     }

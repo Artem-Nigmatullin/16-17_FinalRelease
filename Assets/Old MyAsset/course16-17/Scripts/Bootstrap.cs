@@ -14,6 +14,7 @@ public class Bootstrap : MonoBehaviour
 
     private void Awake()
     {
+
         if (_loadingCoroutine != null)
             StopCoroutine(_loadingCoroutine);
         _loadingCoroutine = StartCoroutine(StartProcess());
@@ -23,6 +24,8 @@ public class Bootstrap : MonoBehaviour
     {
         _loadingScreen.Show();
         _loadingScreen.ShowMessage("Loading...");
+
+
 
         _enemy.Initialize();
         _spawner.Initialize();
