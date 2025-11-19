@@ -19,8 +19,8 @@ namespace Benjathemaker
         private float floatTimer;
 
         private Vector3 initialScale;
-        public Vector3 startScale;
-        public Vector3 endScale;
+        private Vector3 startScale=new Vector3(0.1f,0.1f,0.1f);
+        private Vector3 endScale = new Vector3(0.2f, 0.2f, 0.2f);
 
         public bool isScaling = false;
         public bool useEasingForScaling = false; // Separate toggle for scaling ease
@@ -49,14 +49,14 @@ namespace Benjathemaker
                 transform.Rotate(rotationVector * rotationSpeed * Time.deltaTime);
             }
 
-            if (isFloating)
-            {
-                floatTimer += Time.deltaTime * floatSpeed;
-                float t = Mathf.PingPong(floatTimer, 1f);
-                if (useEasingForFloating) t = EaseInOutQuad(t);
+            //if (isFloating)
+            //{
+            //    floatTimer += Time.deltaTime * floatSpeed;
+            //    float t = Mathf.PingPong(floatTimer, 1f);
+            //    if (useEasingForFloating) t = EaseInOutQuad(t);
 
-                transform.position = initialPosition + new Vector3(0, t * floatHeight, 0);
-            }
+            //    //transform.position = initialPosition + new Vector3(0, t * floatHeight, 0);
+            //}
 
             if (isScaling)
             {
