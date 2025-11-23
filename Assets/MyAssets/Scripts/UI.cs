@@ -21,9 +21,9 @@ using UnityEngine;
 public class UI : MonoBehaviour, IHealthObserver, IAgroObserver
 {
     [SerializeField] private AggrZone _aggrZone; // プレイヤーが入ると検知されるエリア
-    [SerializeField] private TextMeshProUGUI _textMesh; // 情報を表示するUIテキスト
-    private GameObject _player; // 現在エリア内にいるプレイヤー
-
+    [SerializeField] private TextMeshProUGUI _textHealth;
+    [SerializeField] private TextMeshProUGUI _textPlayerName;
+    [SerializeField]private GameObject _player;
     [SerializeField] private CharacterHealth _characterHealth; // キャラクターの体力
     
     private string _playerName; // UIに表示するプレイヤーの名前
@@ -52,30 +52,19 @@ public class UI : MonoBehaviour, IHealthObserver, IAgroObserver
     public void OnHealthChanged(int health)
     {
         _characterHealth.Health.Value = health;
-        UpdateUI();
-        Debug.Log("UI HEALTH:" + _characterHealth.Health.Value);
+        _textHealth.text = $"HP: {_characterHealth.Health.Value}";
       
     }
-
-    public void OnEntered(GameObject player)
-    {
-
-        _player = player;
-        UpdateUI();
+    public void OnEntered(GameObject gameObject)
+    { 
+       // _player=gameObject;
+        _textPlayerName.text = $"Entered: {gameObject.name}";
+        DevLog.Error("name:"+gameObject);
     }
 
     public void OnExit(GameObject player)
     {
-        _player = null;
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        _textMesh.text = $"HP: {_characterHealth.Health.Value}\n" +
-                         $"Entered: {_playerName}";
-        _playerName = _player != null ? _player.name : "";
-
+        _textPlayerName.text = "Entered: -";
     }
 
 }

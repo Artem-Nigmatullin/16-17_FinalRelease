@@ -42,16 +42,14 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        random = new Vector3(
-          Random.Range(2, 10),
-          transform.position.y,
-          Random.Range(2, 14));
-        _spawnPoint.position += random;
+     
+        _spawnPoint.position += SetRandomPosition();
 
         SpawnEnemy(_spawnPoint);
         SelectBehavior();
   
     }
+    private Vector3 SetRandomPosition()=> random = new Vector3(Random.Range(2, 10),transform.position.y,Random.Range(2, 14));
 
     public void SelectBehavior() => _lastEnemy?.Init(_idleType, _reactType);
 

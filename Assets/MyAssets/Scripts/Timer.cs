@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 public class Timer : IDisposable
 {
-    private readonly float _startTime = 30f;
+    private readonly float _startTime = 600f;
     private float _currentTime;
     private bool StartDestroyTime = false;
 
