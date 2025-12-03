@@ -1,23 +1,17 @@
 using UnityEngine;
 
-
 public class RayCastMode : MonoBehaviour
 {
     [SerializeField] private Transform _sourceRay;
-    private Collider[] buffer = new Collider[30];
-    private Vector3 _currentDirection;
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private Vector3 _rotation;
     [SerializeField] private float _rayLength = 5f;
     private IInteractable _interactable;
-    private bool canInteractable => _interactable != null;
-
 
     private void Update()
     {
         CreateRaycast();
     }
-    private Vector3 GetPointWithCamera() => new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
     private Vector3 GetPointWithMouse() => Input.mousePosition;
     private bool isHit(Ray ray, out RaycastHit hitInfo)
     {
@@ -38,8 +32,6 @@ public class RayCastMode : MonoBehaviour
 
         if (isHit(cameraRay, out RaycastHit hit) && IsInteractable(hit))
         {
-            Debug.Log("Мы навели курсор на объект: " + hit.collider.name);
-
             if (Input.GetMouseButton(0))
             {
 
@@ -50,16 +42,9 @@ public class RayCastMode : MonoBehaviour
 
         }
 
-
-
         Physics.RaycastAll(cameraRay);
         Collider[] colliders = Physics.OverlapSphere(Vector2.zero, 10);
 
-        foreach (Collider collider in colliders)
-        {
-
-           // Debug.Log("точки коллайдера:" + collider.gameObject.name);
-        }
     }
     public void CreateRayLine()
     {

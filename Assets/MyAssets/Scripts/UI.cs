@@ -18,26 +18,24 @@ using UnityEngine;
 /// </remarks>
 
 [RequireComponent(typeof(TextMeshProUGUI))]
-public class UI : MonoBehaviour, IHealthObserver, IAgroObserver
+public class UI : MonoBehaviour, IHealthListener, IEnterable
 {
     [SerializeField] private AggrZone _aggrZone; // プレイヤーが入ると検知されるエリア
     [SerializeField] private TextMeshProUGUI _textHealth;
     [SerializeField] private TextMeshProUGUI _textPlayerName;
-    [SerializeField]private GameObject _player;
+    [SerializeField] private GameObject _player;
     [SerializeField] private CharacterHealth _characterHealth; // キャラクターの体力
-    
-    private string _playerName; // UIに表示するプレイヤーの名前
 
     private void Start()
     {
 
         Debug.Log("UI HEALTH:" + _characterHealth.Health.Value);
 
+    
     }
-
-    public void Initialize()
+    private void OnEnable()
     {
-
+        
         _aggrZone.Entered += OnEntered;
         _characterHealth.Health.Changed += OnHealthChanged;
     }
@@ -51,8 +49,8 @@ public class UI : MonoBehaviour, IHealthObserver, IAgroObserver
 
     public void OnHealthChanged(int health)
     {
-        _characterHealth.Health.Value = health;
         _textHealth.text = $"HP: {_characterHealth.Health.Value}";
+        _characterHealth.Health.Value = health;
       
     }
     public void OnEntered(GameObject gameObject)

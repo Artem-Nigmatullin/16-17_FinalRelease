@@ -3,56 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class Enemy : MonoBehaviour, IAgroObserver
+public class Enemy : MonoBehaviour
 {
-    private GameObject _gameObject;
     [SerializeField] private Transform _targetPlayer;
     [SerializeField] Spawner _spawner;
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private List<Transform> _points;
     [SerializeField] private Transform _homePosition;
     [SerializeField] private CoinCollector _collector;
+    [SerializeField] private Effect _effect;
+    [Header("Текущее под-состояние Idle")]
+    [SerializeField] private EnemyIdleBehaviorType _currentIdleType;
+    private EnemyIdleBehaviorType _previousIdleType;
+    [Header("Текущее под-состояние React")]
+    [SerializeField] private EnemyReactBehaviorType _currentReactType;
+    private EnemyReactBehaviorType _previousReactType;
+
+    private GameObject _gameObject;
     private IBehavior _currentBehavior;
     private IBehavior _idleBehavior;
     private IBehavior _reactBehavior;
     private IBehavior _forCollectCoinBehavior;
     private IBehavior _dieBehavior;
-    [SerializeField] private Effect _effect;
-
-    [Header("Текущее под-состояние Idle")]
-    [SerializeField] private EnemyIdleBehaviorType _currentIdleType;
-    private EnemyIdleBehaviorType _previousIdleType;
-
-    [Header("Текущее под-состояние React")]
-    [SerializeField] private EnemyReactBehaviorType _currentReactType;
-    private EnemyReactBehaviorType _previousReactType;
 
     private event Action behaviorChanged;
     [SerializeField] private AggrZone _aggrZone;
+    private bool NotStartCollectCoin() => _forCollectCoinBehavior == null;
 
     private float _dist = 0;
-    public bool IsChangedIdleStateInInspector => _currentIdleType != _previousIdleType;
-    public bool IsChangedReactStateInInspector => _currentReactType != _previousReactType;
+    private bool IsChangedIdleStateInInspector => _currentIdleType != _previousIdleType;
+    private bool IsChangedReactStateInInspector => _currentReactType != _previousReactType;
 
     private bool IsEnteredPlayer;
 
-
-
-    public void Awake()
-    {
-
-
-    }
     public void Initialize()
     {
         _currentIdleType = EnemyIdleBehaviorType.Stand;
     }
     private void Start()
     {
-
-
         var groups = _points.OrderByDescending(group => group.name);
 
         foreach (Transform group in groups)
@@ -75,9 +65,8 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public void Dead()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
-    private bool NotStartCollectCoin() => _forCollectCoinBehavior == null;
     public void Update()
     {
         _dist = _aggrZone.GetDistance();
@@ -174,11 +163,8 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
     public void ChangeIdleSubState(EnemyIdleBehaviorType newType)
     {
-
-
         _idleBehavior = _spawner.SpawnIdleBehavior(newType, this, _points);
         _currentBehavior = _idleBehavior;
-        _currentBehavior.Enter();
         Debug.Log($"{name}:  {newType}に変更");
 
     }
@@ -189,7 +175,6 @@ public class Enemy : MonoBehaviour, IAgroObserver
 
         _reactBehavior = _spawner.SpawnReactBehavior(newType, this, _effect, this.transform);
         _currentBehavior = _reactBehavior;
-        _currentBehavior.Enter();
         Debug.Log($"{name}: {newType}に変更");
     }
 
@@ -201,7 +186,7 @@ public class Enemy : MonoBehaviour, IAgroObserver
             throw new ArgumentException("idleBehavior 指定されてません!");
         else
             _currentBehavior = _idleBehavior;
-        _currentBehavior?.Enter();
+       
     }
 
     public void SetReactBehavior()
@@ -211,17 +196,7 @@ public class Enemy : MonoBehaviour, IAgroObserver
         else
             _currentBehavior?.Exit();
         _currentBehavior = _reactBehavior;
-        _currentBehavior?.Enter();
-    }
-
-    public void OnExit(GameObject player)
-    {
-        _gameObject = player;
-
-    }
-    public void OnEntered(GameObject player)
-    {
-        _gameObject = player;
+        
     }
 
     public void ClearTarget() => _targetPlayer = null;

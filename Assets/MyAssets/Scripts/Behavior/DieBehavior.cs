@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DieBehavior : IBehavior
 {
-
     private readonly GameObject _gameObject;
     private readonly Effect _effect;
 
@@ -12,8 +11,6 @@ public class DieBehavior : IBehavior
         _gameObject = gameObject;
         _effect = effect;
     }
-
-    public void Enter() {  }
 
     private void SetEffect()
     {
@@ -31,9 +28,5 @@ public class DieBehavior : IBehavior
         SetEffect();
        // Destroy();
     }
-
-    public void Exit()
-    {
-
-    }
+    public void Exit() { }
 }

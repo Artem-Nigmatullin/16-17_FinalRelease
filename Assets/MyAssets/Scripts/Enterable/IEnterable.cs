@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IAgroObserver
+public interface IEnterable
 {
     void OnEntered( GameObject player);
     void OnExit( GameObject player);

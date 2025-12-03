@@ -22,7 +22,6 @@ public class CharacterMovement : MonoBehaviour
         moveDirection.Normalize();
         OnAppliedForceForMove(rb, moveDirection);
        
-
     }
     public void Jump(Rigidbody rb)
     {

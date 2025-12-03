@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RunAwayBehavior : IBehavior
 {
-    const float SPEED = 7f;
+    const float SPEED = 5f;
     private float _distance;
     private readonly Movement _movement = new Movement();
     private Transform _target;

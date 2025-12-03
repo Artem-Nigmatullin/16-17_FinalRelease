@@ -16,8 +16,6 @@ public class RandomWalkBehavior : IBehavior
 
     public RandomWalkBehavior(Transform source)=>  _source = source;
     
-    public void Enter() { }
-
     private IEnumerator WalkRoutine()
     {
         while (true)
@@ -34,7 +32,6 @@ public class RandomWalkBehavior : IBehavior
         }
     }
 
-
     public void Update()
     {
        
@@ -48,9 +45,5 @@ public class RandomWalkBehavior : IBehavior
         _movement.Move(_source, _targetPosition, SPEED);
 
     }
-
-    public void Exit()
-    {
-
-    }
+    public void Exit() { }
 }

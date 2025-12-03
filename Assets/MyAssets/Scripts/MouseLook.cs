@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 
 public class MouseLook : MonoBehaviour
 {
-    private Camera _camera;
     [SerializeField] private Transform _source;
     [SerializeField] private float _mouseSensitivity = 1f;
     [SerializeField] private float _xRotation = 0f;
     [SerializeField] private float _minValue = -160f;
     [SerializeField] private float _maxValue = 160f;
     [SerializeField] private RayCastMode _raycast;
+    private Camera _camera;
     private float _mouseX;
     private float _mouseY;
 

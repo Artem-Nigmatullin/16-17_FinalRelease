@@ -8,12 +8,9 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private Enemy _enemy;
     [SerializeField] private LoadingScreen _loadingScreen;
     [SerializeField] private UI uI;
-    [SerializeField] private GameInitializer _gameInitializer;
     [SerializeField] private CoinCollector _coinCollector;
     private Coroutine _loadingCoroutine;
     private Coroutine _updateCoroutine;
-
- 
 
     private void Awake()
     {
@@ -31,19 +28,13 @@ public class Bootstrap : MonoBehaviour
 
 
         _enemy.Initialize();
-        _spawner.Initialize();
-        _coinCollector.Initialize();
+       // _spawner.DeleteCloneEnemy();
 
 
         yield return new WaitForSeconds(1);
-        uI.Initialize();
 
         _loadingScreen.Hide();
 
-    }
-    private void Update()
-    {
-      
     }
     private IEnumerator UpdateProcess()
     {

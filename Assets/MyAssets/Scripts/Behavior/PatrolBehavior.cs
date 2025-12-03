@@ -33,9 +33,6 @@ public class PatrolBehavior : IBehavior
         _pointQueue.Enqueue(_currentPoint);
     }
 
-    public void Enter() { }
-
-
     private void GetPatrolPoints(List<Transform> points)
     {
         InitRoute(points);
@@ -56,7 +53,5 @@ public class PatrolBehavior : IBehavior
         }
         _movement.Move(_source, _currentPoint, _speed);
     }
-
-    public void Exit()
-    { }
+    public void Exit() { }
 }

@@ -22,8 +22,6 @@ public class StandBehavior : IBehavior
 
     }
 
-    public void Enter() { }
-
     private IEnumerator StandRoutine()
     {
         while (true)
@@ -39,6 +37,7 @@ public class StandBehavior : IBehavior
             yield return new WaitForSeconds(Random.Range(0.5f, 2f));
         }
     }
+
     public void Update()
     {
         _currentPosition = _source.transform.position;

@@ -11,11 +11,8 @@ public class Oscillator : MonoBehaviour
     private float time = 0;
     private Coroutine coroutineRotate;
 
-    private static int _activeCoroutines = 0;
-
     private void Update()
     {
-
         if (Input.GetKey(KeyCode.R))
         {
             UseRotateProcess();
@@ -40,7 +37,6 @@ public class Oscillator : MonoBehaviour
          
             yield  return null;
         }
-
     }
     private IEnumerator ProcessRotateAnimation(Transform cube)
     {

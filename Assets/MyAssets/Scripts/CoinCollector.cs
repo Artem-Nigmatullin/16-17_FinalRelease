@@ -12,11 +12,16 @@ public class CoinCollector : MonoBehaviour
     private List<Coin> coinCollected = new List<Coin>();
     public event Action StartedCollect;
     public bool HasFullCoin = false;
-    private bool _equal = false;
-    private bool IsNotEmptyCoin => coinCollected.Count > 0;
-    public void Initialize()
-    {
+    private bool _isNotEmptyCoin;
+    public bool IsNotEmptyCoin { get { return _isNotEmptyCoin; }private set { _isNotEmptyCoin = coinCollected.Count > 0; } }
+    private int FullCoin = 9;
 
+    private void Start()
+    {
+        foreach (var coin in coinList)
+        {
+            DevLog.Error("id:" + coin.GetInstanceID());
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -26,12 +31,14 @@ public class CoinCollector : MonoBehaviour
             DevLog.Log("монета:" + coin);
             coin.Pickup();
 
-            if (IsNotEmptyCoin)
-            {
-                ChangeStateEnemy();
-            }
+           // if (coinCollected.Count != FullCoin) return;
 
-            if (IsCollectedItem(_equal) == true)
+                ChangeStateEnemy();
+            //if (_isNotEmptyCoin)
+            //{
+            //}
+
+            if (IsCollectedItem())
             {
                 DevLog.Error("все монеты собраны");
                 _enemy.Dead();
@@ -41,6 +48,7 @@ public class CoinCollector : MonoBehaviour
 
         }
     }
+
     private void ChangeStateEnemy()
     {
         foreach (var enemy in GetAllEnemies())
@@ -49,27 +57,23 @@ public class CoinCollector : MonoBehaviour
             enemy.SetReactBehavior();
         }
     }
+
     private IEnumerable<Enemy> GetAllEnemies()
     {
         foreach (var spawner in _spawners)
         {
-            foreach (var enemy in spawner.enemies)
+            foreach (var enemy in spawner.Enemies)
             {
                 yield return enemy;
             }
         }
     }
-    private bool IsCollectedItem(bool equal)
+
+    private bool IsCollectedItem()
     {
+        return coinList.Select(x => x.GetInstanceID()).OrderBy(id => id)
+               .SequenceEqual(
+                     coinCollected.Select(x => x.GetInstanceID()).OrderBy(id => id));
 
-        equal = coinList.Select(x => x.GetInstanceID()).OrderBy(id => id)
-                .SequenceEqual(
-                      coinCollected.Select(x => x.GetInstanceID()).OrderBy(id => id));
-        if (equal)
-        {
-            return true;
-        }
-        return false;
     }
-
 }

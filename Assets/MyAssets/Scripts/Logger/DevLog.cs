@@ -5,7 +5,6 @@ using UnityEngine;
 
 public static class DevLog
 {
-    
     private readonly static string logPath = Application.persistentDataPath + "/game_log.txt";
     // === Лог общего назначения ===
     [Conditional("UNITY_EDITOR")]

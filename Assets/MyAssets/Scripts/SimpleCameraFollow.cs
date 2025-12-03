@@ -1,27 +1,16 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class SimpleCameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform _camera;
     [SerializeField] private Player _player;
     [SerializeField] private Transform _source; 
-    [SerializeField] private Vector3 offset = new Vector3(0, 5, -7); 
     [SerializeField] private float smoothSpeed = 5f; 
-
     private Vector3 _cameraForward;
     private Vector3 _cameraRight;
-    public Vector3 CameraForward
-    {
-        get { return _cameraRight; }
-        set { _cameraRight = value; }
-    }
-    public Vector3 CameraRight
-    {
-        get { return _cameraForward; }
-        set { _cameraForward = value; }
-    }
+
+    public Vector3 CameraForward { get => _cameraForward; set => _cameraForward = value; }
+    public Vector3 CameraRight { get => _cameraRight; set => _cameraRight = value; }
 
     private void GetCameraPosition()
     {
@@ -36,14 +25,11 @@ public class SimpleCameraFollow : MonoBehaviour
     private void LateUpdate()
     {
         transform.LookAt(_source);
-      
     }
 
     private void Update()
     {
         GetCameraPosition();
         if (_source == null) return;
-
-     
     }
 }

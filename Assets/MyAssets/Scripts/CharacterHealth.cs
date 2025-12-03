@@ -31,7 +31,6 @@ public class CharacterHealth : MonoBehaviour
     {
         _health.Value -= dmg;
         yield return new WaitForSeconds(1);
-        yield return _health.CoroutineDamage;
 
     }
 

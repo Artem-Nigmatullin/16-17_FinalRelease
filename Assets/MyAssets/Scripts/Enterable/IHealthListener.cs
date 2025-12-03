@@ -1,5 +1,5 @@
 
-public interface IHealthObserver 
+public interface IHealthListener 
 {
     void OnHealthChanged(int health);
 

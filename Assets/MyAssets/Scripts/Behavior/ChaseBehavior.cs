@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class ChaseBehavior : IBehavior
 {
-    const float SPEED = 3f;
+    private const float SPEED = 3f;
     private float _distance;
     private readonly NavMeshAgent _navMesh;
     private List<Transform> _sources=new List<Transform>();
@@ -31,7 +32,6 @@ public class ChaseBehavior : IBehavior
         _sources = sources;
     }
 
-
     public ChaseBehavior(NavMeshAgent navMesh, Transform source)
     {
         _navMesh = navMesh;
@@ -39,7 +39,6 @@ public class ChaseBehavior : IBehavior
     }
     private void MoveCharacterWithDifferentDistance()
     {
-
         _distance = Vector3.Distance(_source.position, _target.position);
         if (_distance > 0.1)
         {
@@ -50,13 +49,10 @@ public class ChaseBehavior : IBehavior
             Vector3 chasePos = _source.transform.position + dir;
             _movement.Move(_source, chasePos, SPEED);
         }
-
-
     }
 
     private void AllMoveCharacterWithDifferentDistance()
     {
-
         foreach (Transform sources in _sources)
         {
             _distance = Vector3.Distance(sources.position, _target.position);
@@ -72,14 +68,13 @@ public class ChaseBehavior : IBehavior
 
         }
     }
+
     public void MoveCharacterWithNavMesh()
     {
         foreach (Transform source in _sources)
             _navMesh.SetDestination(source.position);
 
     }
-    public void Enter() { }
-
 
     public void Update()
     {
@@ -95,8 +90,5 @@ public class ChaseBehavior : IBehavior
         //MoveCharacterWithDifferentDistance();
     }
 
-    public void Exit()
-    {
-
-    }
+    public void Exit() { }
 }

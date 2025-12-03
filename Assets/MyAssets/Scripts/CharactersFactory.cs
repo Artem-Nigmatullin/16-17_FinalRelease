@@ -1,16 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CharactersFactory
 {
-   
-    public List<Enemy> _enemies=new List<Enemy>();
+    private List<Enemy> _enemies = new List<Enemy>();
     public Enemy CreateEnemy(
-        Enemy enemyPrefab,
         Vector3 spawnPosition,
-        Vector3 spawnOffset)
+        Vector3 spawnOffset,
+        Enemy enemyPrefab)
     {
         Enemy enemy = Object.Instantiate(enemyPrefab, spawnPosition + spawnOffset, Quaternion.identity);
         _enemies.Add(enemy);
@@ -20,8 +18,8 @@ public class CharactersFactory
     public IBehavior CreateIdleBehavior(
         EnemyIdleBehaviorType type,
         Enemy enemy,
-        Transform homePosition,
-        List<Transform> points)
+        List<Transform> points,
+         Transform homePosition)
     {
         switch (type)
         {
@@ -32,18 +30,16 @@ public class CharactersFactory
                 Debug.LogError($"Неизвестный Idle: {type}");
                 return new StandBehavior(enemy.transform, homePosition);
         }
-
     }
 
     public IBehavior CreateReactBehavior(
         EnemyReactBehaviorType type,
         Enemy enemy,
-        Transform player,
         Effect _effect,
         Transform source,
+        Transform player,
         NavMeshAgent navMesh = null)
     {
-
         switch (type)
         {
             case EnemyReactBehaviorType.RunAway: return new RunAwayBehavior(enemy.transform, player);
