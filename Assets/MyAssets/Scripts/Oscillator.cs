@@ -47,15 +47,13 @@ public class Oscillator : MonoBehaviour
         while (true)
         {
             float elapsed = 0;
-            // float tick = Time.deltaTime;
 
             while (elapsed < animationTime)
             {
-                // cube.transform.rotation = Quaternion.Lerp(startRotation, endRotation, Mathf.PingPong(progress, 1f));
+              
                 cube.Rotate(Vector3.up * _rotationSpeed, Space.Self);
                 elapsed += Time.deltaTime;
                 Debug.Log($"elapsed 1: {elapsed:F2} ");
-                // yield return StartCoroutine(ProcessMove()); // ждём следующий кадр
                 yield return null;
             }
             Debug.Log("立った時間");

@@ -28,7 +28,7 @@ public class CoinCollector : MonoBehaviour
         if (other.TryGetComponent(out Coin coin))
         {
             coinCollected.Add(coin);
-            DevLog.Log("монета:" + coin);
+            DevLog.Log("coin:" + coin);
             coin.Pickup();
 
            // if (coinCollected.Count != FullCoin) return;
@@ -40,7 +40,7 @@ public class CoinCollector : MonoBehaviour
 
             if (IsCollectedItem())
             {
-                DevLog.Error("все монеты собраны");
+                DevLog.Error("coin full");
                 _enemy.Dead();
                 HasFullCoin = true;
                 return;

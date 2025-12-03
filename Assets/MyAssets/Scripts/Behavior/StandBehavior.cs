@@ -59,6 +59,6 @@ public class StandBehavior : IBehavior
         if (_routine != null)
             _owner.StopCoroutine(_routine);
 
-        Debug.Log($"{_source.name} устал стоять");
+        Debug.Log($"{_source.name} tired");
     }
 }

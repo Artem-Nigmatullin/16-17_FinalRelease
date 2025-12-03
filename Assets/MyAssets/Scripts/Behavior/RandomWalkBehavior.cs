@@ -39,7 +39,7 @@ public class RandomWalkBehavior : IBehavior
         if (_distance < 0.1f)
         {
             _targetPosition = new Vector3(Random.Range(-3f, 3f), _source.transform.position.y, Random.Range(-3f, 3f));
-            Debug.Log($"{_source.name} гуляет по точке {_targetPosition}");
+            Debug.Log($"{_source.name} walk {_targetPosition}");
         }
        
         _movement.Move(_source, _targetPosition, SPEED);

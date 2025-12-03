@@ -6,7 +6,7 @@ using UnityEngine;
 public static class DevLog
 {
     private readonly static string logPath = Application.persistentDataPath + "/game_log.txt";
-    // === Лог общего назначения ===
+
     [Conditional("UNITY_EDITOR")]
     [Conditional("DEVELOPMENT_BUILD")]
 
@@ -27,7 +27,7 @@ public static class DevLog
         }
         catch (Exception e)
         {
-            UnityEngine.Debug.LogError($"DevLog: не удалось записать в файл: {e.Message}");
+            UnityEngine.Debug.LogError($"DevLog: {e.Message}");
         }
     }
 
@@ -50,7 +50,7 @@ public static class DevLog
         }
         catch (Exception e)
         {
-            UnityEngine.Debug.LogError($"DevWARN: не удалось записать в файл: {e.Message}");
+            UnityEngine.Debug.LogError($"DevWARN: {e.Message}");
         }
     }
 
@@ -73,7 +73,7 @@ public static class DevLog
         }
         catch (Exception e)
         {
-            UnityEngine.Debug.LogError($"DevError: не удалось записать в файл: {e.Message}");
+            UnityEngine.Debug.LogError($"DevError: {e.Message}");
         }
     }
 }

@@ -10,7 +10,6 @@ public class CharacterHealth : MonoBehaviour
 
     [SerializeField] private UI _uI;
 
-    private Coroutine _damage;
     private void Start()
     {
         _health.Dead += OnDead;
@@ -19,20 +18,10 @@ public class CharacterHealth : MonoBehaviour
     public void OnDead() { gameObject.SetActive(false); }
     public void TakeDamage(int dmg)
     {
-
-        if (_damage != null)
-        {
-            StopCoroutine(_damage);
-        }
-        _damage = StartCoroutine(TakeDamageCoroutine(dmg));
+        _health.Value -= dmg; 
     }
 
-    public IEnumerator TakeDamageCoroutine(int dmg)
-    {
-        _health.Value -= dmg;
-        yield return new WaitForSeconds(1);
-
-    }
+ 
 
     private void OnDestroy()
     {

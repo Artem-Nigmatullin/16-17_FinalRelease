@@ -9,10 +9,9 @@ public class ReactiveVariable<T> : IDisposable where T : IEquatable<T>
     public event Action<T, T> ChangedDetailed;
     public event Action<T> Changed;
     public event Action Dead;
-    private Coroutine _coroutineDamage;
     private T _value;
 
-    public Coroutine CoroutineDamage { get { return _coroutineDamage; } set { value = _coroutineDamage; } }
+
     public ReactiveVariable() => _value = default(T);
 
     public ReactiveVariable(T value) => _value = value;

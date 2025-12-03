@@ -27,7 +27,7 @@ public class CharactersFactory
             case EnemyIdleBehaviorType.Patrol: return new PatrolBehavior(enemy.transform, points);
             case EnemyIdleBehaviorType.RandomWalk: return new RandomWalkBehavior(enemy.transform);
             default:
-                Debug.LogError($"Неизвестный Idle: {type}");
+                Debug.LogError($"error Idle: {type}");
                 return new StandBehavior(enemy.transform, homePosition);
         }
     }
@@ -49,7 +49,7 @@ public class CharactersFactory
                 : new ChaseBehavior(source, player);
             case EnemyReactBehaviorType.Die: return new DieBehavior(enemy.gameObject, _effect);
             default:
-                Debug.LogError($"Неизвестный React: {type}");
+                Debug.LogError($"error React: {type}");
                 return new RunAwayBehavior(enemy.transform, player);
 
         }
