@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,20 +20,25 @@ public class Spawner : MonoBehaviour
     [SerializeField] private EnemyIdleBehaviorType _idleType;
     [SerializeField] private EnemyReactBehaviorType _reactType;
     [SerializeField] private Enemy _enemyPrefab;
-    [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private Transform _homePosition;
-    [SerializeField] private Effect _effect;
-    [SerializeField] private Transform _player;
+
+    private SpawnerSceneReference _sceneReference;
+    private EnemySpawnSettings _enemySpawnSettings;
     private Enemy _lastEnemy;
     private List<Enemy> enemies = new();
-    private CharactersFactory _charactersFactory = new CharactersFactory();
-    private float _ground = 1;
+    private CharactersFactory _charactersFactory;
+
 
     public List<Enemy> Enemies { get => enemies; set => enemies = value; }
 
+    public void InitializeDependency(SpawnerDependencies dependencies)
+    {
+        _charactersFactory = dependencies.CharactersFactory;
+        _sceneReference = dependencies.SpawnerSceneReference;
+        _enemySpawnSettings = dependencies.EnemySpawnSettings;
+    }
     private void Start()
     {
-        SpawnEnemy(_spawnPoint);
+        SpawnEnemy(_sceneReference.SpawnPoint);
         SelectBehavior();
     }
     public void Update()
@@ -47,7 +51,7 @@ public class Spawner : MonoBehaviour
         if (gameObject.activeInHierarchy)
             _enemyPrefab.gameObject.SetActive(false);
     }
-    private Vector3 SetRandomPosition() => new Vector3(Random.Range(2, -2), transform.position.y + _ground, Random.Range(2, -1));
+    private Vector3 SetRandomPosition() => new Vector3(Random.Range(2, -2), transform.position.y + _enemySpawnSettings.GroundOffset, Random.Range(2, -1));
 
     public void SelectBehavior() => _lastEnemy?.Init(_idleType, _reactType);
 
@@ -55,7 +59,7 @@ public class Spawner : MonoBehaviour
     {
         if (spawnPoint is null)
         {
-            throw new System.ArgumentNullException(nameof(spawnPoint));
+            throw new System.InvalidOperationException(nameof(spawnPoint));
         }
 
         spawnPoint.position += SetRandomPosition();
@@ -69,7 +73,7 @@ public class Spawner : MonoBehaviour
         Enemy enemy,
         List<Transform> points)
     {
-        return _charactersFactory.CreateIdleBehavior(type, enemy, points, _homePosition);
+        return _charactersFactory.CreateIdleBehavior(type, enemy, points, _sceneReference.HomePosition);
 
     }
 
@@ -81,7 +85,7 @@ public class Spawner : MonoBehaviour
         NavMeshAgent navMesh = null)
     {
 
-        return _charactersFactory.CreateReactBehavior(type, enemy, effect, enemyPosition, _player, navMesh);
+        return _charactersFactory.CreateReactBehavior(type, enemy, effect, enemyPosition, _sceneReference.Player, navMesh);
     }
 }
 

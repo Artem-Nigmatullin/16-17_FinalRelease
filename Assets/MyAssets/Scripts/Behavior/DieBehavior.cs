@@ -26,7 +26,7 @@ public class DieBehavior : IBehavior
     public void Update()
     {
         SetEffect();
-       // Destroy();
+        Destroy();
     }
     public void Exit() { }
 }

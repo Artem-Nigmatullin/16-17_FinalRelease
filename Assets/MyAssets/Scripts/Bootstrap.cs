@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
@@ -9,6 +8,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private LoadingScreen _loadingScreen;
     [SerializeField] private UI uI;
     [SerializeField] private CoinCollector _coinCollector;
+    [SerializeField] private ProjectInstaller _projectInstaller;
     private Coroutine _loadingCoroutine;
     private Coroutine _updateCoroutine;
 
@@ -25,10 +25,10 @@ public class Bootstrap : MonoBehaviour
         _loadingScreen.Show();
         _loadingScreen.ShowMessage("Loading...");
 
+        _projectInstaller?.Initialize();
 
+        
 
-        _enemy.Initialize();
-       // _spawner.DeleteCloneEnemy();
 
 
         yield return new WaitForSeconds(1);

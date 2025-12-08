@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEngine;
 
 public class ReactiveVariable<T> : IDisposable where T : IEquatable<T>
 {
@@ -32,8 +28,7 @@ public class ReactiveVariable<T> : IDisposable where T : IEquatable<T>
 
                 if (Convert.ToInt16(value) == 0)
                 {
-                 
-                    Dead.Invoke();
+                    Dead?.Invoke();
                 }
             }
         }

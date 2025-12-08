@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,10 +9,9 @@ public class CoinCollector : MonoBehaviour
     [SerializeField] private Enemy _enemy;
     [SerializeField] private List<Spawner> _spawners;
     private List<Coin> coinCollected = new List<Coin>();
-    public event Action StartedCollect;
+    public event Action OnTimerResetRequested;
     public bool HasFullCoin = false;
-    private bool _isNotEmptyCoin;
-    public bool IsNotEmptyCoin { get { return _isNotEmptyCoin; }private set { _isNotEmptyCoin = coinCollected.Count > 0; } }
+    public bool IsNotEmptyCoin => coinCollected.Count > 0;
     private int FullCoin = 9;
 
     private void Start()
@@ -31,17 +29,19 @@ public class CoinCollector : MonoBehaviour
             DevLog.Log("coin:" + coin);
             coin.Pickup();
 
-           // if (coinCollected.Count != FullCoin) return;
+            // if (coinCollected.Count != FullCoin) return;
 
+            if (IsNotEmptyCoin)
+            {
                 ChangeStateEnemy();
-            //if (_isNotEmptyCoin)
-            //{
-            //}
+             
+            }
 
             if (IsCollectedItem())
             {
                 DevLog.Error("coin full");
-                _enemy.Dead();
+                OnTimerResetRequested?.Invoke();
+                DeadAllEnemies();
                 HasFullCoin = true;
                 return;
             }
@@ -49,6 +49,14 @@ public class CoinCollector : MonoBehaviour
         }
     }
 
+    private void DeadAllEnemies()
+    {
+        foreach (var enemy in GetAllEnemies())
+        {
+            enemy.Dead();
+
+        }
+    }
     private void ChangeStateEnemy()
     {
         foreach (var enemy in GetAllEnemies())

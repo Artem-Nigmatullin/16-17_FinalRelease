@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using TMPro.EditorUtilities;
+using System.Collections;
 using UnityEngine;
 
 public class AggrZone : MonoBehaviour
@@ -20,7 +18,8 @@ public class AggrZone : MonoBehaviour
     private bool playerInTrigger = false;
     private bool isActive = false;
     private float _dist;
-
+    private Coroutine _damageCoroutine;
+    private bool _isDamageActive = false;
     public float GetDistance()
     {
         if (HasPlayer == false) return _dist = 0;
@@ -34,23 +33,39 @@ public class AggrZone : MonoBehaviour
 
         if (_dist <= _enterDistance)
         {
-            _enemy.SetTarget(_player.transform);
-            _enemy.SetReactBehavior();
+            _enemy?.SetTarget(_player.transform);
+            _enemy?.SetReactBehavior();
             if (_collector.IsNotEmptyCoin)
             {
-                _character.TakeDamage(1);
+                StartTakeDamage();
             }
         }
 
 
         if (_dist > _exitDistance)
         {
-            _enemy.SetIdleBehavior();
-            _enemy.ClearTarget();
+            _enemy?.SetIdleBehavior();
+            _enemy?.ClearTarget();
         }
 
     }
 
+    private void StartTakeDamage()
+    {
+        if (_isDamageActive) return;
+        if (_damageCoroutine != null)
+        {
+            StopCoroutine(_damageCoroutine);
+        }
+        _damageCoroutine = StartCoroutine(CoroutineTakeDamage());
+        _isDamageActive = true;
+    }
+    private IEnumerator CoroutineTakeDamage()
+    {
+        _character.TakeDamage(10);
+        yield return new WaitForSeconds(2);
+        _isDamageActive = false; // корутина завершилась
+    }
     private void OnTriggerEnter(Collider other)
     {
 

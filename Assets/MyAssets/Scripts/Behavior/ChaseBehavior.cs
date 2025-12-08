@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class ChaseBehavior : IBehavior
 {

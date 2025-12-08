@@ -6,21 +6,22 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform _targetPlayer;
-    [SerializeField] Spawner _spawner;
-    [SerializeField] private NavMeshAgent _agent;
-    [SerializeField] private List<Transform> _points;
-    [SerializeField] private Transform _homePosition;
-    [SerializeField] private CoinCollector _collector;
+    private Transform _targetPlayer;
+    private NavMeshAgent _agent;
+    private Transform _homePosition;
+    private AggrZone _aggrZone;
     [SerializeField] private Effect _effect;
-    [Header("Текущее под-состояние Idle")]
-    [SerializeField] private EnemyIdleBehaviorType _currentIdleType;
-    private EnemyIdleBehaviorType _previousIdleType;
-    [Header("Текущее под-состояние React")]
-    [SerializeField] private EnemyReactBehaviorType _currentReactType;
-    private EnemyReactBehaviorType _previousReactType;
+    [SerializeField] private Spawner _spawner;
+    [SerializeField] private EnemyReferences _enemyReferences;
+    [SerializeField] private List<Transform> _points;
 
-    private GameObject _gameObject;
+    [Header("current state Idle")]
+    [SerializeField] private EnemyIdleBehaviorType _currentIdleType;
+    [Header("current state  React")]
+    [SerializeField] private EnemyReactBehaviorType _currentReactType;
+
+    private EnemyIdleBehaviorType _previousIdleType;
+    private EnemyReactBehaviorType _previousReactType;
     private IBehavior _currentBehavior;
     private IBehavior _idleBehavior;
     private IBehavior _reactBehavior;
@@ -28,7 +29,6 @@ public class Enemy : MonoBehaviour
     private IBehavior _dieBehavior;
 
     private event Action behaviorChanged;
-    [SerializeField] private AggrZone _aggrZone;
     private bool NotStartCollectCoin() => _forCollectCoinBehavior == null;
 
     private float _dist = 0;
@@ -37,9 +37,16 @@ public class Enemy : MonoBehaviour
 
     private bool IsEnteredPlayer;
 
-    public void Initialize()
+    private void Awake()
     {
+        _aggrZone= _enemyReferences.AggrZone;
+    }
+    public void Initialize(EnemyReferences references)
+    {
+        _targetPlayer = references.TargetPlayer;
         _currentIdleType = EnemyIdleBehaviorType.Stand;
+        _agent = references.Agent;
+        _homePosition = references.HomePosition;
     }
     private void Start()
     {
@@ -183,20 +190,20 @@ public class Enemy : MonoBehaviour
     {
 
         if (_idleBehavior == null)
-            throw new ArgumentException("idleBehavior 指定されてません!");
+            throw new InvalidOperationException("idleBehavior 指定されてません!");
         else
             _currentBehavior = _idleBehavior;
-       
+
     }
 
     public void SetReactBehavior()
     {
         if (_reactBehavior == null)
-            throw new ArgumentException("ReactBehavior 指定されてません!");
+            throw new InvalidOperationException("ReactBehavior 指定されてません!");
         else
             _currentBehavior?.Exit();
         _currentBehavior = _reactBehavior;
-        
+
     }
 
     public void ClearTarget() => _targetPlayer = null;

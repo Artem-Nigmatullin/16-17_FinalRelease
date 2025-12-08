@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -23,7 +22,6 @@ public class UI : MonoBehaviour, IHealthListener, IEnterable
     [SerializeField] private AggrZone _aggrZone; // プレイヤーが入ると検知されるエリア
     [SerializeField] private TextMeshProUGUI _textHealth;
     [SerializeField] private TextMeshProUGUI _textPlayerName;
-    [SerializeField] private GameObject _player;
     [SerializeField] private CharacterHealth _characterHealth; // キャラクターの体力
 
     private void Start()
@@ -31,16 +29,16 @@ public class UI : MonoBehaviour, IHealthListener, IEnterable
 
         Debug.Log("UI HEALTH:" + _characterHealth.Health.Value);
 
-    
+
     }
     private void OnEnable()
     {
-        
+
         _aggrZone.Entered += OnEntered;
         _characterHealth.Health.Changed += OnHealthChanged;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _aggrZone.Entered -= OnEntered;
         _characterHealth.Health.Changed -= OnHealthChanged;
@@ -48,16 +46,16 @@ public class UI : MonoBehaviour, IHealthListener, IEnterable
     }
 
     public void OnHealthChanged(int health)
-    {
+    {       
         _textHealth.text = $"HP: {_characterHealth.Health.Value}";
         _characterHealth.Health.Value = health;
-      
+
     }
     public void OnEntered(GameObject gameObject)
-    { 
-       // _player=gameObject;
+    {
+        // _player=gameObject;
         _textPlayerName.text = $"Entered: {gameObject.name}";
-        DevLog.Error("name:"+gameObject);
+        DevLog.Error("name:" + gameObject);
     }
 
     public void OnExit(GameObject player)
