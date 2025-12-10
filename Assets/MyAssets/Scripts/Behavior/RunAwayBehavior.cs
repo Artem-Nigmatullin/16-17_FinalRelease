@@ -15,14 +15,14 @@ public class RunAwayBehavior : IBehavior
 
     }
 
-    public void Enter() {  }
+    public void Enter() { }
 
     public void Update()
     {
         Vector3 playerPos = _target.transform.position;
-        if (_distance < 15)
+        _distance = Vector3.Distance(_source.transform.position, playerPos);
+        if (_distance < 5)
         {
-            _distance = Vector3.Distance(_source.transform.position, playerPos);
             playerPos.y = _source.transform.position.y;
             Vector3 dir = (_source.transform.position - playerPos).normalized;
             Vector3 runPos = _source.transform.position + dir;

@@ -1,3 +1,7 @@
 
-public interface IInteractable { }
+public interface IInteractable {
+
+    void On();
+    void Off();
+}
 

@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private void Move() => _character.Move(_rigidbody);
     private void Jump() => _character.Jump(_rigidbody);
 
+  
+
     private void Update()
     {
         Move();

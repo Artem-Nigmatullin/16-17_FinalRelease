@@ -7,11 +7,12 @@ public class ProjectInstaller : MonoBehaviour
     [SerializeField] private SpawnerDependencies _dependency;
     [SerializeField] private EnemyReferences _enemyReferences;
     [SerializeField] private Enemy enemy;
-
+    [SerializeField] private SmallEnemy _smallEnemy;
     public void Initialize()
     {
         InitSpawners();
         InitEnemies();
+        _smallEnemy.Initialize(_enemyReferences);
     }
 
     private void InitEnemies()=> enemy.Initialize(_enemyReferences);

@@ -59,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     }
 
+    
     private bool IsSafetyDistance()
     {
 
@@ -143,19 +144,19 @@ public class Enemy : MonoBehaviour
 
     public void ChangeChaseState()
     {
-        _forCollectCoinBehavior = _spawner.SpawnReactBehavior(EnemyReactBehaviorType.Chase, this, _effect, this.transform);
+        _forCollectCoinBehavior = _spawner.SpawnReactBehavior(EnemyReactBehaviorType.Chase, this.gameObject, _effect, this.transform);
 
     }
 
     private void DamagePlayerForExplosion()
     {
-        _dieBehavior = _spawner.SpawnReactBehavior(EnemyReactBehaviorType.Die, this, _effect, this.transform);
+        _dieBehavior = _spawner.SpawnReactBehavior(EnemyReactBehaviorType.Die, this.gameObject, _effect, this.transform);
     }
     public void Init(EnemyIdleBehaviorType idleType, EnemyReactBehaviorType reactType)
     {
-
-        _idleBehavior = _spawner.SpawnIdleBehavior(idleType, this, _points);
-        _reactBehavior = _spawner.SpawnReactBehavior(reactType, this, _effect, this.transform);
+            
+        _idleBehavior = _spawner.SpawnIdleBehavior(idleType, this.gameObject, _points);
+        _reactBehavior = _spawner.SpawnReactBehavior(reactType, this.gameObject, _effect, this.transform);
 
         _currentIdleType = idleType;
         _previousIdleType = _currentIdleType;
@@ -170,7 +171,7 @@ public class Enemy : MonoBehaviour
 
     public void ChangeIdleSubState(EnemyIdleBehaviorType newType)
     {
-        _idleBehavior = _spawner.SpawnIdleBehavior(newType, this, _points);
+        _idleBehavior = _spawner.SpawnIdleBehavior(newType, this.gameObject, _points);
         _currentBehavior = _idleBehavior;
         Debug.Log($"{name}:  {newType}に変更");
 
@@ -180,7 +181,7 @@ public class Enemy : MonoBehaviour
     {
 
 
-        _reactBehavior = _spawner.SpawnReactBehavior(newType, this, _effect, this.transform);
+        _reactBehavior = _spawner.SpawnReactBehavior(newType, this.gameObject, _effect, this.transform);
         _currentBehavior = _reactBehavior;
         Debug.Log($"{name}: {newType}に変更");
     }

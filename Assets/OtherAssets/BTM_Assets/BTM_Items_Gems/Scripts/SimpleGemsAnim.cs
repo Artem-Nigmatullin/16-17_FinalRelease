@@ -19,8 +19,8 @@ namespace Benjathemaker
         private float floatTimer;
 
         private Vector3 initialScale;
-        private Vector3 startScale=new Vector3(0.1f,0.1f,0.1f);
-        private Vector3 endScale = new Vector3(0.2f, 0.2f, 0.2f);
+        private Vector3 startScale=new Vector3(0.4f,0.4f,0.4f);
+        private Vector3 endScale = new Vector3(0.5f, 0.5f, 0.5f);
 
         public bool isScaling = false;
         public bool useEasingForScaling = false; // Separate toggle for scaling ease

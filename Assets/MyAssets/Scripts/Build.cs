@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Build : MonoBehaviour,IInteractable
+public class Build : MonoBehaviour
 {
  
 }

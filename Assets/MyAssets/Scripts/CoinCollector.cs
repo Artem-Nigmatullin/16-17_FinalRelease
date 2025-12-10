@@ -12,7 +12,7 @@ public class CoinCollector : MonoBehaviour
     public event Action OnTimerResetRequested;
     public bool HasFullCoin = false;
     public bool IsNotEmptyCoin => coinCollected.Count > 0;
-    private int FullCoin = 9;
+    private int FullCoin = 4;
 
     private void Start()
     {
@@ -27,8 +27,8 @@ public class CoinCollector : MonoBehaviour
         {
             coinCollected.Add(coin);
             DevLog.Log("coin:" + coin);
-            coin.Pickup();
-
+            coin.Off();
+            
             // if (coinCollected.Count != FullCoin) return;
 
             if (IsNotEmptyCoin)

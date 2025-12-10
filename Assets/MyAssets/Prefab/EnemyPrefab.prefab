@@ -358,9 +358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 345eaaf798151094181b4360c13b8790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetPlayer: {fileID: 0}
+  _effect: {fileID: 0}
   _spawner: {fileID: 0}
-  _agent: {fileID: 6510684338909237507}
+  _enemyReferences: {fileID: 0}
   _points:
   - {fileID: 0}
   - {fileID: 0}
@@ -368,12 +368,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _homePosition: {fileID: 0}
-  _collector: {fileID: 0}
-  _effect: {fileID: 0}
   _currentIdleType: 10
   _currentReactType: 20
-  _aggrZone: {fileID: 1251023752645497260}
 --- !u!195 &6510684338909237507
 NavMeshAgent:
   m_ObjectHideFlags: 0

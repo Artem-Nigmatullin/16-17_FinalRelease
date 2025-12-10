@@ -70,7 +70,7 @@ public class Spawner : MonoBehaviour
 
     public IBehavior SpawnIdleBehavior(
         EnemyIdleBehaviorType type,
-        Enemy enemy,
+        GameObject enemy,
         List<Transform> points)
     {
         return _charactersFactory.CreateIdleBehavior(type, enemy, points, _sceneReference.HomePosition);
@@ -79,7 +79,7 @@ public class Spawner : MonoBehaviour
 
     public IBehavior SpawnReactBehavior(
         EnemyReactBehaviorType type,
-        Enemy enemy,
+        GameObject enemy,
         Effect effect,
         Transform enemyPosition,
         NavMeshAgent navMesh = null)

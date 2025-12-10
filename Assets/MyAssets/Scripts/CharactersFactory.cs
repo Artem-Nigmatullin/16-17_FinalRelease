@@ -17,7 +17,7 @@ public class CharactersFactory
 
     public IBehavior CreateIdleBehavior(
         EnemyIdleBehaviorType type,
-        Enemy enemy,
+        GameObject enemy,
         List<Transform> points,
          Transform homePosition)
     {
@@ -34,7 +34,7 @@ public class CharactersFactory
 
     public IBehavior CreateReactBehavior(
         EnemyReactBehaviorType type,
-        Enemy enemy,
+        GameObject enemy,
         Effect _effect,
         Transform source,
         Transform player,
