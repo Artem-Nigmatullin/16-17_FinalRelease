@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class CoinCollector : MonoBehaviour
 {
+    [SerializeField] private CoinZone _coinZone;
     [SerializeField] private List<Coin> coinList;
     [SerializeField] private Enemy _enemy;
     [SerializeField] private List<Spawner> _spawners;
     private List<Coin> coinCollected = new List<Coin>();
     public event Action OnTimerResetRequested;
+    public event Action OnCoinPickedWithPlayer;
     public bool HasFullCoin = false;
     public bool IsNotEmptyCoin => coinCollected.Count > 0;
-    private int FullCoin = 4;
 
     private void Start()
     {
@@ -25,20 +26,21 @@ public class CoinCollector : MonoBehaviour
     {
         if (other.TryGetComponent(out Coin coin))
         {
+
             coinCollected.Add(coin);
             DevLog.Log("coin:" + coin);
             coin.Off();
-            
-            // if (coinCollected.Count != FullCoin) return;
+
 
             if (IsNotEmptyCoin)
             {
-                ChangeStateEnemy();
-             
-            }
 
+                ChangeStateEnemy();
+            }
             if (IsCollectedItem())
             {
+
+                OnCoinPickedWithPlayer?.Invoke();
                 DevLog.Error("coin full");
                 OnTimerResetRequested?.Invoke();
                 DeadAllEnemies();

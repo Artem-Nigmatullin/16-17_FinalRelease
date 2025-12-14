@@ -47,7 +47,6 @@ public class AggrZone : MonoBehaviour
             _enemy?.SetIdleBehavior();
             _enemy?.ClearTarget();
         }
-
     }
 
     private void StartTakeDamage()
@@ -68,7 +67,6 @@ public class AggrZone : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.GetComponent<Player>() is Player player && HasEnemy)
         {
             _player = player;

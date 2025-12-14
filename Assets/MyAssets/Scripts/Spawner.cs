@@ -53,6 +53,10 @@ public class Spawner : MonoBehaviour
     }
     private Vector3 SetRandomPosition() => new Vector3(Random.Range(2, -2), transform.position.y + _enemySpawnSettings.GroundOffset, Random.Range(2, -1));
 
+    public void SetState(IBehavior behavior)
+    {
+        
+    }
     public void SelectBehavior() => _lastEnemy?.Init(_idleType, _reactType);
 
     public void SpawnEnemy(Transform spawnPoint)

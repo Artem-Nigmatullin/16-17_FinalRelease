@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class Coin : MonoBehaviour,IInteractable
+public class Coin : MonoBehaviour,ISwitcher
 {
     public void Off() => gameObject.SetActive(false);
 

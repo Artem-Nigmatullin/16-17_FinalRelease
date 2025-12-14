@@ -8,9 +8,10 @@ public class Lock : MonoBehaviour
         if (other.GetComponent<Player>() is Player player)
         {
             _coinZone.Coin.On();
-           Destroy(_coinZone.KeyObject.gameObject);
+           _coinZone.KeyObject.gameObject.SetActive(false);
+           _coinZone.LightningEffect.Off();
+           Destroy( _coinZone.SmallEnemy.gameObject);
            Destroy(gameObject);
-         // _coinZone.LightningEffect.gameObject.SetActive(false);
                 
         }
 

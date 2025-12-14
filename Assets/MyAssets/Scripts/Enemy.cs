@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _aggrZone= _enemyReferences.AggrZone;
+        _aggrZone = _enemyReferences.AggrZone;
     }
     public void Initialize(EnemyReferences references)
     {
@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    
+
     private bool IsSafetyDistance()
     {
 
@@ -135,9 +135,9 @@ public class Enemy : MonoBehaviour
             return;
         }
     }
-    public void Set(IBehavior behavior)
+    public IBehavior Set(IBehavior behavior)
     {
-        _currentBehavior = behavior;
+        return _currentBehavior = behavior;
     }
     public void SetTarget(Transform target) => _targetPlayer = target;
 
@@ -154,7 +154,7 @@ public class Enemy : MonoBehaviour
     }
     public void Init(EnemyIdleBehaviorType idleType, EnemyReactBehaviorType reactType)
     {
-            
+
         _idleBehavior = _spawner.SpawnIdleBehavior(idleType, this.gameObject, _points);
         _reactBehavior = _spawner.SpawnReactBehavior(reactType, this.gameObject, _effect, this.transform);
 

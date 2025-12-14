@@ -1,38 +1,56 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CoinZone : MonoBehaviour
 {
-    private float minTime = 1.7f;   // минимум секунд
-    private float maxTime = 3f;
-    private IInteractable[] _interactables;
-    private Coin _coin;
-    private Lightning _lightningEffect;
-    private Coroutine randomCoroutine;
-    private Player _player;
-    private float _dist;
-    private float _currentDistance;
-    private bool HasEnemy => _smallEnemy != null;
     [SerializeField] private CoinCollector _coinCollector;
     [SerializeField] private GameObject _keyObject;
     [SerializeField] private SmallEnemy _smallEnemy;
     [SerializeField] private Lock _lock;
-    private bool HasPlayer => _player != null;
 
+    private ISwitcher[] _interactables;
+    private Coin _coin;
+    private Lightning _lightningEffect;
+    private SpawnEffect _spawnEffect;
+    private Player _player;
+    private float _distance;
+    private float _currentDistance;
+    private float _minDistance = 2;
+    private float minTime = 1.7f;
+    private float maxTime = 3f;
+    private bool HasPlayer => _player != null;
+    private bool HasEnemy => _smallEnemy != null;
     public Coin Coin { get => _coin; set => _coin = value; }
     public Lightning LightningEffect { get => _lightningEffect; }
+    public SpawnEffect SpawnEffect { get => _spawnEffect; }
     public GameObject KeyObject { get => _keyObject; }
+    public SmallEnemy SmallEnemy { get => _smallEnemy; set => _smallEnemy = value; }
+    public bool IsKeyWithEnemy => _keyObject != null &&
+        _keyObject.activeInHierarchy &&
+        _keyObject.transform.IsChildOf(_smallEnemy.transform);
+
+    public bool IsKeyWithPlayer => _player != null && _keyObject != null &&
+    _keyObject.activeInHierarchy &&
+    _keyObject.transform.IsChildOf(_player.transform);
+
+    public bool IsCoinWithPlayer => _coin != null && _player != null &&
+        _coin.gameObject.activeInHierarchy &&
+        _coin.transform.IsChildOf(_player?.transform);
+
 
     private void Awake()
     {
-        _interactables = GetComponentsInChildren<IInteractable>();
+        _interactables = GetComponentsInChildren<ISwitcher>(true);
         GetInteractablesItem();
-
     }
-
+    private void OnEnable()
+    {
+        _coinCollector.OnCoinPickedWithPlayer += DisableEffect;
+    }
+    private void OnDisable()
+    {
+        _coinCollector.OnCoinPickedWithPlayer -= DisableEffect;
+    }
     private void GetInteractablesItem()
     {
         foreach (var interact in _interactables)
@@ -41,103 +59,96 @@ public class CoinZone : MonoBehaviour
                 _lightningEffect = lightning;
             if (interact is Coin coin)
                 Coin = coin;
-
+            if (interact is SpawnEffect effect)
+            {
+                _spawnEffect = effect;
+            }
         }
 
     }
     public float GetDistance()
     {
-        if (HasPlayer == false) return _dist = 0;
-        return _dist = Vector3.Distance(_player.transform.position, _smallEnemy.transform.position);
-    }
-    private void Update()
-    {
+        if (HasEnemy == false || HasPlayer == false) return 0;
+        return _distance = Vector3.Distance(_player.transform.position, _smallEnemy.transform.position);
 
-        if (HasEnemy && HasPlayer)
-        {
-            _currentDistance = GetDistance();
-            if (_currentDistance < 2 && IsEnemyActive())
-            {
-                _smallEnemy.Give(_player.transform, KeyObject.transform);
-                _smallEnemy.gameObject.SetActive(false);
-                _lock.gameObject.SetActive(true);
-            }
-        }
     }
     private void Start()
     {
-        StartRandomDissable();
+        _lightningEffect.PlayEffect();
+
         if (_lightningEffect == null)
         {
             throw new System.InvalidOperationException(nameof(_lightningEffect));
         }
+    }
+    private void Update()
+    {
+        if (IsKeyWithEnemy == false) return;
+        _currentDistance = GetDistance();
+
+        if (_currentDistance < _minDistance)
+        {
+
+            _player.ReceiveKey(KeyObject.transform);
+            _smallEnemy?.gameObject.SetActive(false);
+            _lock.gameObject.SetActive(true);
+
+        }
+
+    }
+    private void DisableEffect()
+    {
+      gameObject.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Player>() is Player player)
         {
             _player = player;
-            // if (!_coinCollector.IsNotEmptyCoin) return;
 
-            if (Coin == null)
+            if (AreAllConditionsMet())
             {
-                throw new System.InvalidOperationException(nameof(Coin));
-            }
-            if (IsLightningEffectActive())
-            {
-                
 
-                _smallEnemy.gameObject.SetActive(true);
-                _smallEnemy.Attach(KeyObject.transform);
-
+                _spawnEffect.PlayRedEffect();
+                _spawnEffect.StopBlueEffect();
+                _keyObject.gameObject.SetActive(true);
+                _smallEnemy?.gameObject.SetActive(true);
+                _smallEnemy?.Attach(KeyObject.transform);
                 Coin.Off();
-                if (_lightningEffect != null)
-                   _lightningEffect.gameObject.SetActive(false);
-
+                _lightningEffect.Off();
+                return;
             }
-            
+            if (HasSpawnRedEffectInScene() == false)
+            {
+                _spawnEffect.PlayBlueEffect();
+            }
+
+            _lightningEffect.Off();
 
         }
 
     }
-    public bool IsCoin()
+
+    private bool AreAllConditionsMet()
+    {
+        return HasLightningEffectInScene() && HasEnemy && HasCoinInScene();
+    }
+    private bool HasCoinInScene()
     {
         return _coin.gameObject.activeInHierarchy == true;
     }
-    private bool IsEnemyActive()
+    private bool HasSmallEnemyInScene()
     {
         return _smallEnemy.gameObject.activeInHierarchy == true;
     }
-    private bool IsLightningEffectActive()
+    private bool HasLightningEffectInScene()
     {
-        return LightningEffect.gameObject.activeInHierarchy == true;
+        return _lightningEffect.Effect.isPlaying;
+    }
+    private bool HasSpawnRedEffectInScene()
+    {
+        return _spawnEffect.BlueEffect.isPlaying;
     }
 
-    private void StartRandomDissable()
-    {
-        if (randomCoroutine != null)
-        {
-            StopCoroutine(randomCoroutine);
-        }
-       
-            randomCoroutine = StartCoroutine(RandomDisable());
-    }
 
-    private IEnumerator RandomDisable()
-    {
-        while (true)
-        {
-            float randomTime = Random.Range(minTime, maxTime);
-
-            yield return new WaitForSeconds(randomTime);
-
-            LightningEffect?.Off();
-
-
-            yield return new WaitForSeconds(randomTime);
-
-
-            LightningEffect?.On();
-        }
-    }
 }

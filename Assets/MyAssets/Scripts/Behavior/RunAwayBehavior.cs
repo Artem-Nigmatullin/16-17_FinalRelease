@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Security.Permissions;
 using UnityEngine;
 
 public class RunAwayBehavior : IBehavior
@@ -8,6 +10,7 @@ public class RunAwayBehavior : IBehavior
     private Transform _target;
     private readonly Transform _source;
     public string Name => "name run away";
+
     public RunAwayBehavior(Transform source, Transform target)
     {
         _source = source;
@@ -27,8 +30,10 @@ public class RunAwayBehavior : IBehavior
             Vector3 dir = (_source.transform.position - playerPos).normalized;
             Vector3 runPos = _source.transform.position + dir;
             _movement.Move(_source, runPos, SPEED);
+
         }
     }
+
 
     public void Exit() { }
 }

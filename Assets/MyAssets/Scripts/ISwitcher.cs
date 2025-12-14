@@ -1,5 +1,5 @@
 
-public interface IInteractable {
+public interface ISwitcher {
 
     void On();
     void Off();

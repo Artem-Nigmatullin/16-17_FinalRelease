@@ -6,7 +6,7 @@ public class RayCastMode : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private Vector3 _rotation;
     [SerializeField] private float _rayLength = 5f;
-    private IInteractable _interactable;
+    private ISwitcher _interactable;
 
     private void Update()
     {
@@ -22,7 +22,7 @@ public class RayCastMode : MonoBehaviour
 
     private bool IsInteractable(RaycastHit hit)
     {
-        _interactable = hit.collider.GetComponent<IInteractable>();
+        _interactable = hit.collider.GetComponent<ISwitcher>();
         return _interactable != null;
     }
     private void CreateRaycast()
