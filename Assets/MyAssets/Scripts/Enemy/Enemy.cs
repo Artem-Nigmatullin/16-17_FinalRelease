@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent _agent;
     private Transform _homePosition;
     private AggrZone _aggrZone;
+    private float _safetyDistance=2;
     [SerializeField] private Effect _effect;
     [SerializeField] private Spawner _spawner;
     [SerializeField] private EnemyReferences _enemyReferences;
@@ -40,11 +41,13 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _aggrZone = _enemyReferences.AggrZone;
+          _currentIdleType = EnemyIdleBehaviorType.Stand;
+        _currentReactType = EnemyReactBehaviorType.RunAway;
     }
     public void Initialize(EnemyReferences references)
     {
         _targetPlayer = references.TargetPlayer;
-        _currentIdleType = EnemyIdleBehaviorType.Stand;
+      
         _agent = references.Agent;
         _homePosition = references.HomePosition;
     }
@@ -52,10 +55,10 @@ public class Enemy : MonoBehaviour
     {
         var groups = _points.OrderByDescending(group => group.name);
 
-        foreach (Transform group in groups)
-        {
-            DevLog.Log($"group:{group.position}");
-        }
+        //foreach (Transform group in groups)
+        //{
+        //    DevLog.Log($"group:{group.position}");
+        //}
 
     }
 
@@ -63,11 +66,11 @@ public class Enemy : MonoBehaviour
     private bool IsSafetyDistance()
     {
 
-        if (_dist >= 2)
+        if (_dist >= _safetyDistance)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
 
     }
 
@@ -75,11 +78,15 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    /// <summary>
+    /// 内容：ステータス管理をEnum化
+    /// リファクタリング実施日：2025年12月21日
+    /// </summary>
     public void Update()
     {
         _dist = _aggrZone.GetDistance();
 
-        if (IsSafetyDistance() == false)
+        if (IsSafetyDistance() == true)
         {
 
             if (NotStartCollectCoin())
@@ -90,8 +97,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            DamagePlayerForExplosion();
-            _dieBehavior?.Update();
+            //DamagePlayerForExplosion();
+            //_dieBehavior?.Update();
 
         }
 
@@ -118,6 +125,7 @@ public class Enemy : MonoBehaviour
 
         }
     }
+
     private void ChangeStateInInspector()
     {
 
@@ -135,12 +143,12 @@ public class Enemy : MonoBehaviour
             return;
         }
     }
+
     public IBehavior Set(IBehavior behavior)
     {
         return _currentBehavior = behavior;
     }
     public void SetTarget(Transform target) => _targetPlayer = target;
-
 
     public void ChangeChaseState()
     {
@@ -164,7 +172,6 @@ public class Enemy : MonoBehaviour
         _currentReactType = reactType;
         _previousReactType = _currentReactType;
 
-
         SetIdleBehavior();
 
     }
@@ -174,22 +181,18 @@ public class Enemy : MonoBehaviour
         _idleBehavior = _spawner.SpawnIdleBehavior(newType, this.gameObject, _points);
         _currentBehavior = _idleBehavior;
         Debug.Log($"{name}:  {newType}に変更");
-
     }
 
     public void ChangeReactSubState(EnemyReactBehaviorType newType)
     {
-
-
         _reactBehavior = _spawner.SpawnReactBehavior(newType, this.gameObject, _effect, this.transform);
         _currentBehavior = _reactBehavior;
         Debug.Log($"{name}: {newType}に変更");
     }
 
-
     public void SetIdleBehavior()
     {
-
+        DevLog.Log($"敵のステータス: {_currentIdleType}に変更");
         if (_idleBehavior == null)
             throw new InvalidOperationException("idleBehavior 指定されてません!");
         else
@@ -199,17 +202,15 @@ public class Enemy : MonoBehaviour
 
     public void SetReactBehavior()
     {
+        DevLog.Log($"敵のステータス: {_currentReactType}に変更");
         if (_reactBehavior == null)
             throw new InvalidOperationException("ReactBehavior 指定されてません!");
         else
             _currentBehavior?.Exit();
         _currentBehavior = _reactBehavior;
-
     }
 
     public void ClearTarget() => _targetPlayer = null;
-
-
 
 }
 

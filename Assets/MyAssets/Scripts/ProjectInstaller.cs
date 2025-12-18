@@ -8,6 +8,7 @@ public class ProjectInstaller : MonoBehaviour
     [SerializeField] private EnemyReferences _enemyReferences;
     [SerializeField] private Enemy enemy;
     [SerializeField] private SmallEnemy _smallEnemy;
+
     public void Initialize()
     {
         InitSpawners();

@@ -21,36 +21,25 @@ public class SmallEnemy : MonoBehaviour
         _homePosition = references.HomePosition;
     }
 
-
     public void Set(IBehavior newBehavior)
     {
         if (_currentBehavior != null)
             _currentBehavior.Exit();
-
         _currentBehavior = newBehavior;
 
-
     }
-  
+
     public void Attach(Transform item)
     {
         item.SetParent(this.gameObject.transform);
         item.localPosition = new Vector3(0, 2, 0);      // поставить прямо на врага
         item.localRotation = Quaternion.identity;
     }
-    private void Awake()
-    {
-
-    }
-    private void Start()
-    {
-        Init(EnemyReactBehaviorType.RunAway);
-
-    }
     private void Update()
     {
         Run();
     }
+
     public void Init(EnemyReactBehaviorType reactType)
     {
         _currentBehavior = _spawner.SpawnReactBehavior(EnemyReactBehaviorType.RunAway, this.gameObject, _effect, this.transform);

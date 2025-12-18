@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Security.Permissions;
 using UnityEngine;
 
 public class RunAwayBehavior : IBehavior
@@ -15,7 +13,6 @@ public class RunAwayBehavior : IBehavior
     {
         _source = source;
         _target = target;
-
     }
 
     public void Enter() { }
@@ -33,7 +30,5 @@ public class RunAwayBehavior : IBehavior
 
         }
     }
-
-
     public void Exit() { }
 }

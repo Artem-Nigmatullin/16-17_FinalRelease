@@ -7,11 +7,9 @@ public class ReactiveVariable<T> : IDisposable where T : IEquatable<T>
     public event Action Dead;
     private T _value;
 
-
     public ReactiveVariable() => _value = default(T);
 
     public ReactiveVariable(T value) => _value = value;
-
 
     public T Value
     {
@@ -33,7 +31,6 @@ public class ReactiveVariable<T> : IDisposable where T : IEquatable<T>
             }
         }
     }
-
     public void Dispose()
     {
 

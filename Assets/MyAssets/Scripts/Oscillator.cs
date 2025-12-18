@@ -23,6 +23,7 @@ public class Oscillator : MonoBehaviour
     {
         coroutineRotate = StartCoroutine(ProcessRotateAnimation(transform));
     }
+
     private IEnumerator ProcessMove()
     {
         
@@ -38,11 +39,11 @@ public class Oscillator : MonoBehaviour
             yield  return null;
         }
     }
+
     private IEnumerator ProcessRotateAnimation(Transform cube)
     {
         float animationTime = 1f;
         Debug.Log($"timeScale: {Time.timeScale}");
-       // StartCoroutine(ProcessMove());
 
         while (true)
         {

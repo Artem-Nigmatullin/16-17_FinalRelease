@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -15,23 +16,36 @@ using UnityEngine;
 /// </remarks>
 public class TimerManager : MonoBehaviour
 {
-    [SerializeField] GameObject _gameobjectPlayer;
+    [SerializeField] Player _gameobjectPlayer;
     private Timer _timer;
     [SerializeField] CoinCollector _collector;
+    private CoinCollectorState _state;
+    public event Action TimeIsUp;
 
-    public bool IsActiveTime {  get { return _timer != null; } }
+    public bool IsActiveTime { get { return _timer != null; } }
     private void OnEnable()
     {
         _collector.OnTimerResetRequested += OnResetTime;
     }
+
     private void OnDisable()
     {
         _collector.OnTimerResetRequested -= OnResetTime;
         _timer = null;
     }
+
     private void Awake()
     {
         _timer = new Timer();
+    }
+
+    public void RestartTime()
+    {
+        if (_timer != null)
+        {
+            _timer = new Timer();
+        }
+        _timer.Start();
     }
 
     private void Start()
@@ -55,15 +69,14 @@ public class TimerManager : MonoBehaviour
     {
         _timer.Tick();
 
-        if (_timer.IsFinished() && _collector.HasFullCoin == false)
+        if (_timer.IsFinished() || _collector.State == CoinCollectorState.FullPickedCoin)
         {
-            Destroy(_gameobjectPlayer);
+            TimeIsUp?.Invoke();
         }
     }
     private void OnDestroy()
     {
         _timer?.Dispose();
-
     }
 
 }

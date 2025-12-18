@@ -41,7 +41,6 @@ public class AggrZone : MonoBehaviour
             }
         }
 
-
         if (_dist > _exitDistance)
         {
             _enemy?.SetIdleBehavior();
@@ -63,7 +62,7 @@ public class AggrZone : MonoBehaviour
     {
         _character.TakeDamage(10);
         yield return new WaitForSeconds(2);
-        _isDamageActive = false; // корутина завершилась
+        _isDamageActive = false;
     }
     private void OnTriggerEnter(Collider other)
     {

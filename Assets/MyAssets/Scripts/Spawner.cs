@@ -27,7 +27,6 @@ public class Spawner : MonoBehaviour
     private List<Enemy> enemies = new();
     private CharactersFactory _charactersFactory;
 
-
     public List<Enemy> Enemies { get => enemies; set => enemies = value; }
 
     public void InitializeDependency(SpawnerDependencies dependencies)
@@ -36,11 +35,13 @@ public class Spawner : MonoBehaviour
         _sceneReference = dependencies.SpawnerSceneReference;
         _enemySpawnSettings = dependencies.EnemySpawnSettings;
     }
+
     private void Start()
     {
         SpawnEnemy(_sceneReference.SpawnPoint);
         SelectBehavior();
     }
+
     public void Update()
     {
         DeleteCloneInGame();
@@ -51,12 +52,9 @@ public class Spawner : MonoBehaviour
         if (gameObject.activeInHierarchy)
             _enemyPrefab.gameObject.SetActive(false);
     }
+
     private Vector3 SetRandomPosition() => new Vector3(Random.Range(2, -2), transform.position.y + _enemySpawnSettings.GroundOffset, Random.Range(2, -1));
 
-    public void SetState(IBehavior behavior)
-    {
-        
-    }
     public void SelectBehavior() => _lastEnemy?.Init(_idleType, _reactType);
 
     public void SpawnEnemy(Transform spawnPoint)

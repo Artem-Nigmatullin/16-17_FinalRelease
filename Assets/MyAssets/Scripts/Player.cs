@@ -4,8 +4,6 @@ public class Player : MonoBehaviour
 {
     [SerializeField ] private Rigidbody _rigidbody;
     [SerializeField] private CharacterMovement _character;
-
-    public bool HasKey {  get; private set; }
     private void Move() => _character.Move(_rigidbody);
     private void Jump() => _character.Jump(_rigidbody);
 
@@ -13,7 +11,7 @@ public class Player : MonoBehaviour
     {
         //HasKey = true;
         item.SetParent(transform);
-        item.localPosition = new Vector3(0, 2, 0);      // поставить прямо на врага
+        item.localPosition = new Vector3(0, 2, 0);     
         item.localRotation = Quaternion.identity;
     }
     private void Update()

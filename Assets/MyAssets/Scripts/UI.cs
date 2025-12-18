@@ -26,14 +26,11 @@ public class UI : MonoBehaviour, IHealthListener, IEnterable
 
     private void Start()
     {
-
         Debug.Log("UI HEALTH:" + _characterHealth.Health.Value);
-
-
     }
+
     private void OnEnable()
     {
-
         _aggrZone.Entered += OnEntered;
         _characterHealth.Health.Changed += OnHealthChanged;
     }
@@ -51,6 +48,7 @@ public class UI : MonoBehaviour, IHealthListener, IEnterable
         _characterHealth.Health.Value = health;
 
     }
+
     public void OnEntered(GameObject gameObject)
     {
         // _player=gameObject;

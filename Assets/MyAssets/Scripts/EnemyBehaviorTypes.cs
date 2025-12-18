@@ -10,5 +10,5 @@ public enum EnemyReactBehaviorType
 {
     RunAway = 20,
     Chase = 21,
-    Die = 22
+    Die = 22,
 }

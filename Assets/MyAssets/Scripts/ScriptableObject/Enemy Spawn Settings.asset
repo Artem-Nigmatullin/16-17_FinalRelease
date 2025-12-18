@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 530b7767079c1aa4bbcb22a38adc952f, type: 3}
+  m_Script: {fileID: 0}
   m_Name: Enemy Spawn Settings
-  m_EditorClassIdentifier: 
-  Effect: {fileID: 77096587478358573, guid: f567e22cb2a18794e8beffc241c0892d, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnSettings
+  Effect: {fileID: 0}
   GroundOffset: 1

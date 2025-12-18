@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1939087565453011342}
   - component: {fileID: 1021845933503995387}
   - component: {fileID: 4268281042522463310}
-  - component: {fileID: 1251023752645497260}
+  - component: {fileID: 2649174139978734508}
   m_Layer: 0
   m_Name: AggrZone
   m_TagString: Untagged
@@ -104,9 +104,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1251023752645497260
+--- !u!114 &2649174139978734508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,13 +115,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5716262270188164881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc7a8e7066d9d2a408acdf8cb821bae9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a838022cb412824bbe4b906a68dd700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _collector: {fileID: 0}
-  _enemy: {fileID: 2234391588160170590}
+  _enemy: {fileID: 8004804861486341561}
   _player: {fileID: 0}
-  _target: {fileID: 4307938019259088722}
+  _target: {fileID: 0}
   _character: {fileID: 0}
   _ui: {fileID: 0}
 --- !u!1 &7640962154903793723
@@ -247,8 +247,9 @@ GameObject:
   - component: {fileID: 5540238273448194577}
   - component: {fileID: 5630832239578441327}
   - component: {fileID: 9101814094128607696}
-  - component: {fileID: 2234391588160170590}
   - component: {fileID: 6510684338909237507}
+  - component: {fileID: 3865571523862516693}
+  - component: {fileID: 8004804861486341561}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Throw
@@ -346,30 +347,6 @@ CapsuleCollider:
   m_Height: 2.390272
   m_Direction: 1
   m_Center: {x: 0, y: 0.00000017881392, z: 0}
---- !u!114 &2234391588160170590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8686763799551217782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 345eaaf798151094181b4360c13b8790, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effect: {fileID: 0}
-  _spawner: {fileID: 0}
-  _enemyReferences: {fileID: 0}
-  _points:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _currentIdleType: 10
-  _currentReactType: 20
 --- !u!195 &6510684338909237507
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -392,3 +369,44 @@ NavMeshAgent:
   m_BaseOffset: 1.1951361
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3865571523862516693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8686763799551217782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1ab4337d3f1ce4b9b9c4f1010e063a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetPlayer: {fileID: 0}
+  _aggrZone: {fileID: 2649174139978734508}
+  _agent: {fileID: 6510684338909237507}
+  _homePosition: {fileID: 0}
+  _collector: {fileID: 0}
+--- !u!114 &8004804861486341561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8686763799551217782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807d23d3b760c4840a0d1a2515b31235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effect: {fileID: 0}
+  _spawner: {fileID: 0}
+  _enemyReferences: {fileID: 3865571523862516693}
+  _points:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _currentIdleType: 10
+  _currentReactType: 20

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Lightning : MonoBehaviour, ISwitcher
@@ -11,9 +10,9 @@ public class Lightning : MonoBehaviour, ISwitcher
 
     public ParticleSystem Effect { get => _effect; private set => _effect = value; }
 
-    public void Off() => gameObject.SetActive(false);
+    public void Hide() => gameObject.SetActive(false);
 
-    public void On() => gameObject.SetActive(true);
+    public void Show() => gameObject.SetActive(true);
 
     public void PlayEffect()
     {
@@ -23,16 +22,13 @@ public class Lightning : MonoBehaviour, ISwitcher
             StopCoroutine(StartRandomToggleEffect()); // ← останавливаем ТУ, что работает
         }
         _randomEffectCoroutine = StartCoroutine(StartRandomToggleEffect());
-     
+   
     }
     public void StopEffect()
     {
         _effect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-
         if (_randomEffectCoroutine == null)
             DevLog.Log("coroutine null");
-        //Destroy(gameObject);
     }
     private IEnumerator StartRandomToggleEffect()
     {

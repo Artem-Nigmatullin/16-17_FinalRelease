@@ -22,6 +22,7 @@ public class SimpleCameraFollow : MonoBehaviour
         _cameraRight.y = 0;
         _cameraRight.Normalize();
     }
+
     private void LateUpdate()
     {
         transform.LookAt(_source);

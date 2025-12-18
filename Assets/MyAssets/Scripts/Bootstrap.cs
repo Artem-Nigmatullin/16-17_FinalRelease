@@ -14,11 +14,9 @@ public class Bootstrap : MonoBehaviour
 
     private void Awake()
     {
-
         if (_loadingCoroutine != null)
             StopCoroutine(_loadingCoroutine);
         _loadingCoroutine = StartCoroutine(StartProcess());
-
     }
     private IEnumerator StartProcess()
     {
@@ -27,10 +25,6 @@ public class Bootstrap : MonoBehaviour
 
         _projectInstaller?.Initialize();
 
-        
-
-
-
         yield return new WaitForSeconds(1);
 
         _loadingScreen.Hide();
@@ -38,7 +32,6 @@ public class Bootstrap : MonoBehaviour
     }
     private IEnumerator UpdateProcess()
     {
-        
         yield return null;
     }
 

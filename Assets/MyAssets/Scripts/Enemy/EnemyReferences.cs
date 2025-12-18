@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-
 public class EnemyReferences : MonoBehaviour
 {
     [SerializeField] private Transform _targetPlayer;

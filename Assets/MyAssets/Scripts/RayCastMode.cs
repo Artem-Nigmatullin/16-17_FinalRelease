@@ -12,7 +12,9 @@ public class RayCastMode : MonoBehaviour
     {
         CreateRaycast();
     }
+
     private Vector3 GetPointWithMouse() => Input.mousePosition;
+
     private bool isHit(Ray ray, out RaycastHit hitInfo)
     {
         bool result = Physics.Raycast(ray, out hitInfo);
@@ -25,6 +27,7 @@ public class RayCastMode : MonoBehaviour
         _interactable = hit.collider.GetComponent<ISwitcher>();
         return _interactable != null;
     }
+
     private void CreateRaycast()
     {
         Vector3 point = GetPointWithMouse();
@@ -39,13 +42,12 @@ public class RayCastMode : MonoBehaviour
                 target.gameObject.SetActive(false);
 
             }
-
         }
 
         Physics.RaycastAll(cameraRay);
         Collider[] colliders = Physics.OverlapSphere(Vector2.zero, 10);
-
     }
+
     public void CreateRayLine()
     {
         Quaternion rotation = Quaternion.Euler(_rotation);
@@ -56,6 +58,7 @@ public class RayCastMode : MonoBehaviour
 
         Debug.DrawLine(_sourceRay.position, mouseWorldPosition * _rayLength, Color.yellow);
     }
+
     private void OnGUI()
     {
         int size = 12;

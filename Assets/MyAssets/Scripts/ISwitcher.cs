@@ -1,7 +1,7 @@
 
 public interface ISwitcher {
 
-    void On();
-    void Off();
+    void Show();
+    void Hide();
 }
 
