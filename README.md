@@ -2,7 +2,7 @@
 
 本プロジェクトでは、ゲーム内の機能を制御するスクリプトは以下のフォルダに保存されています：
 
-https://github.com/Artem-Nigmatullin/16-17_FinalRelease/tree/main/Assets/MyAssets/Scripts
+https://github.com/Artem-Nigmatullin/16-17_FinalRelease/tree/main/Assets/CoinGame/Scripts
 
 
 ゲームについて
