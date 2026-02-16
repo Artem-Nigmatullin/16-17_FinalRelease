@@ -51,4 +51,4 @@ Unityで一人で作りました
 
 ゲームの動きは、状態（ステート）で管理しています
 
-※ ゲームのプレイ動画は後こちらで見れます　https://www.youtube.com/watch?v=lekHH6vwQhQ
+※ ゲームのプレイ動画は後こちらで見れます　https://www.youtube.com/watch?v=1e5z-BNR8dQ
